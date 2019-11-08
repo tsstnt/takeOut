@@ -6,33 +6,34 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="./reset.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_509996_vl34s4nytbd.css">
     <title>vue_3</title>
   </head>
   <body>
     <div id="app"></div>
     <!-- built files will be auto injected -->
     <script type="text/javascript">
-      function remRefresh() {
-        // 1获取屏幕宽度
-        let clientWidth = document.documentElement.clientWidth
-        // 2.设置rem字体大小,将屏幕等分,降低单位rem值的大小,便于后期换算,提高精确度
-        let rem = clientWidth /10
-        // 3.设置rem字体大小
-        document.documentElement.style.fontSize = rem + 'px'
-        // 设置body字体大小
-        document.body.style.fontSize = '12px'
-      }
-      window.addEventListener('pageshow',() => {
-        remRefresh()
-      })
-      let timeoutId;
-      window.addEventListener('resize',() => {
-        timeoutId && clearTimeout(timeoutId)
-        timeoutId = setTimeout(() => {
-          console.log('resize')
-          remRefresh()
-        },2000)
-      })
+      // function remRefresh() {
+      //   // 1获取屏幕宽度
+      //   let clientWidth = document.documentElement.clientWidth
+      //   // 2.设置rem字体大小,将屏幕等分,降低单位rem值的大小,便于后期换算,提高精确度
+      //   let rem = clientWidth /10
+      //   // 3.设置rem字体大小
+      //   document.documentElement.style.fontSize = rem + 'px'
+      //   // 设置body字体大小
+      //   document.body.style.fontSize = '12px'
+      // }
+      // window.addEventListener('pageshow',() => {
+      //   remRefresh()
+      // })
+      // let timeoutId;
+      // window.addEventListener('resize',() => {
+      //   timeoutId && clearTimeout(timeoutId)
+      //   timeoutId = setTimeout(() => {
+      //     console.log('resize')
+      //     remRefresh()
+      //   },2000)
+      // })
     </script>
   </body>
 </html>

@@ -1,13 +1,14 @@
-import vue from 'vue'
-import VueRoter from 'vue-router'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 import routes from './routes'
 // 声明使用插件库
-Vue.use(VueRoter)
+Vue.use(VueRouter)
 
 // 生成路由器,管理路由
-const router = new router(){
-  mode:'history',
+const router = new VueRouter({
+  mode:'hash',//默认hash
   routes
 }
+)
 
 export default router
