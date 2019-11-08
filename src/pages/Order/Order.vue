@@ -20,7 +20,6 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../common/@counter-style"
   .order  //订单
     width 100%
     .order_no_login

@@ -102,6 +102,7 @@
 </script>
   
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixins.styl"
   .profile //我的
     width 100%
     .profile-number
@@ -230,5 +231,5 @@
             height 10px
             .icon-jiantou1
               color #bbb
-              font-size 10px  
+              font-size 10px
 </style>
