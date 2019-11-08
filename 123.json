@@ -1,0 +1,71 @@
+{
+
+
+  "Print to iife": {
+     "scope": "javascript,typescript",
+     "prefix": "aw",
+     "body": [
+       "($1) => {$2}",
+     
+     ],
+     "description": "Log output to arrowFunction"
+   },
+   
+   "Print to Self - calling anonymous functions": {
+     "scope": "javascript,typescript",
+     "prefix": "iife",
+     "body": [
+       "(function($1){"
+         "$2"
+       "})($3)",
+     
+     ],
+     "description": "Log output to calling anonymous functions"
+   },
+ 
+   "Print to script": {
+     "scope": "html",
+     "prefix": "scr1",
+     "body": [
+       "<script type=\"text/javascript\">"
+       "	$2" 
+       "</script>"
+ 
+     ],
+     "description": "Log output to script"
+   },
+   "Print to scriptsrc": {
+     "scope": "html",
+     "prefix": "scr2",
+     "body": [
+       "<script type=\"text/javascript\" src=\"\"></script>"
+     ],
+     "description": "Log output to script"
+   },
+ 
+ 
+ "Print to getId": {
+     "scope": "javascript,typescript",
+     "prefix": "did",
+     "body": [
+       "document.getElementById('$id')"
+     ],
+     "description": "根据id得到元素"
+   },
+ 
+ 
+   "querySelector": {
+     "prefix": "dq",
+     "body": [
+       "document.querySelector('$1')"
+     ],
+     "description": "获取dom元素"
+   },
+   "querySelectorAll": {
+     "prefix": "dqa",
+     "body": [
+       "document.querySelectorAll('$1')"
+     ],
+     "description": "获取dom元素"
+   }
+ 

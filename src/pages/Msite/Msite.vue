@@ -1,7 +1,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-    <header class="msite_header">
+<!--     <header class="msite_header">
         <span class="header_search">
           <i class="iconfont icon-sousuo"></i>
         </span>
@@ -11,7 +11,15 @@
       <span class="header_login">
           <span class="header_login_text">登录|注册</span>
         </span>
-    </header>
+    </header> -->
+    <GshopHeader title="昌平区北七家宏福科技园(337省道北)">
+      <span  slot="right" class="header_login">
+        <span class="header_login_text">登录|注册</span>
+      </span>
+      <span slot="left" class="header_search">
+        <i class="iconfont icon-sousuo"></i>
+      </span>
+    </GshopHeader>
     <!--首页导航-->
     <nav class="msite_nav">
       <div class="swiper-container">
