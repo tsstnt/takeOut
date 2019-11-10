@@ -5,7 +5,7 @@ import 'lib-flexible/flexible'
 
 import router from './router'
 import GshopHeader from './components/GshopHeader/GshopHeader'
-import store from './store/index.js'
+import store from './store'
 
 //Vue全局注册组件的语法:Vue
 Vue.component('GshopHeader',GshopHeader)

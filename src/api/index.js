@@ -12,3 +12,11 @@ export const getCategorys = () => ajax({
 })
 
 /* 根据经纬度获取商品列表 */
+export const getShops = (latitude, longitude) => ajax({
+  url: '/shops',
+  //get params    post  data
+  params: {
+    latitude,
+    longitude
+  }
+})

@@ -1,12 +1,12 @@
 import {
   getAddress,
   getCategorys,
-  // getShops
+  getShops
 } from '../api'
 import {
   SAVE_ADDRESS,
   SAVE_CATEGORYS,
-  // SAVE_SHOPS
+  SAVE_SHOPS
 } from "./mutations-type";
 
 export default {
@@ -23,5 +23,11 @@ export default {
       typeof fn === 'function' && fn()
     }
   },
+  async getShopsAction({commit,state}){
+  let result = await getShops(state.latitude, state.longitude)
+  if (result.code === 0) {
+    commit(SAVE_SHOPS,{shops:result.data})
+  }
+},
 
 }
