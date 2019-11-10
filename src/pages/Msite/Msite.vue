@@ -320,8 +320,13 @@
 </template>
   
 <script type="text/ecmascript-6">
+import {getAddress} from '../../api'
   export default {
-  
+    async mounted() {
+      // let result = await getAddress(40.10038,116.36867)
+      // console.log(result)
+    }
+    
   }
 </script>
   
