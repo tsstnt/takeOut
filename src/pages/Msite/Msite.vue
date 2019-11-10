@@ -1,18 +1,7 @@
 <template>
   <section class="msite">
     <!--首页头部-->
-<!--     <header class="msite_header">
-        <span class="header_search">
-          <i class="iconfont icon-sousuo"></i>
-        </span>
-      <span class="header_title">
-          <span class="header_title_text ellipsis">昌平区北七家宏福科技园(337省道北)</span>
-        </span>
-      <span class="header_login">
-          <span class="header_login_text">登录|注册</span>
-        </span>
-    </header> -->
-    <GshopHeader title="昌平区北七家宏福科技园(337省道北)">
+    <GshopHeader :title="address.name ? address.name : '定位中...'">
       <span  slot="right" class="header_login">
         <span class="header_login_text">登录|注册</span>
       </span>
@@ -320,11 +309,22 @@
 </template>
   
 <script type="text/ecmascript-6">
-import {getAddress} from '../../api'
-  export default {
+import {mapState} from 'vuex'
+import 'swiper/css/swiper.min.css'
+export default {
     async mounted() {
       // let result = await getAddress(40.10038,116.36867)
       // console.log(result)
+      this.$store.dispatch('getAddressAction')
+      this.$store.dispatch('getCategorysAction',() => {
+
+      
+    },
+    computed:{
+      ...mapState({
+        address: state=> state.address,
+        categorys: state=> state.categorys
+      })
     }
     
   }
