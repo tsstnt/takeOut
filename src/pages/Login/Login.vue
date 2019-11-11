@@ -127,8 +127,18 @@ import {loginWithPassword,loginWithPhone} from '../../api'
           alert('前端验证失败')
         }
       },
-      sendCode(){
+      async sendCode(){
         console.log('发送代码')
+        let result = await this.$API.sendCode(this.phone)
+        if (result.code ===0) {
+          alert('发送成功')
+          //将获取的用户的数据存入vuex的state中
+          this.$store.dispatch('getUserAction')
+          this.$router.replace('./profile')
+        }
+        else{
+          alert('发送失败')
+        }
         //设置倒计时时长
         this.countDown = 10
         this.intervaId = setInterval(() => {

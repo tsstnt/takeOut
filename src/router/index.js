@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 // 生成路由器,管理路由
 const router = new VueRouter({
-  mode:'hash',//默认hash
+  mode:'history',//默认hash
   routes
 }
 )
