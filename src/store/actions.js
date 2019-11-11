@@ -18,8 +18,9 @@ export default {
   },
   async getCategorysAction({commit},fn){
     let result = await getCategorys()
+    console.log(result)
     if (result.code === 0) {
-      commit(SAVE_CATEGORYS,{category:result.data})
+      commit(SAVE_CATEGORYS,{categorys:result.data})
       typeof fn === 'function' && fn()
     }
   },

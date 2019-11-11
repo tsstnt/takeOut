@@ -47,22 +47,22 @@ export default {
       this.$store.dispatch('getCategorysAction',() => {
         // console.log('数据已经更新到state中了');
         // 方案二： 传递一个callback给action，在调用mutation之后调用callback
-        // this.$nextTick(() => { //$nextTick代表下次页面全部渲染完毕
-        //   new Swiper('.swiper-container', {
-        //     loop: true,
-        //     pagination: {
-        //       el: '.swiper-pagination',
-        //     },
-        //   })
-        // })
+        this.$nextTick(() => { //$nextTick代表下次页面全部渲染完毕
+          new Swiper('.swiper-container', {
+            loop: true,
+            pagination: {
+              el: '.swiper-pagination',
+            },
+          })
+        })
     }
   )
-      new Swiper('.swiper-container', {
-              loop: true,
-              pagination: {
-                el: '.swiper-pagination',
-              },
-            })
+      // new Swiper('.swiper-container', {
+      //         loop: true,
+      //         pagination: {
+      //           el: '.swiper-pagination',
+      //         },
+      //       })
 },
   computed:{
       ...mapState({
@@ -70,6 +70,8 @@ export default {
         categorys: state=> state.categorys
       }),
       newCateGorys(){
+        let a =_.chunk(this.categorys, 8) 
+        console.log(a)
         return _.chunk(this.categorys, 8) 
       }
     }

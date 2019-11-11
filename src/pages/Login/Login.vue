@@ -12,12 +12,15 @@
         <form>
           <div :class="{on: !isPassWordLogin}">
             <section class="login_message">
-              <input name="phone" v-validate="'required|phone'" type="tel" maxlength="11" placeholder="手机号">
+              <input v-model="phone" name="phone" v-validate="'required|phone'" type="tel" maxlength="11" placeholder="手机号">
               <span style="color: red;" v-show="errors.has('phone')">{{errors.first('phone')}}</span>
-              <button disabled="disabled" class="get_verification" >获取验证码</button>
+              <!-- <button disabled="disabled" class="get_verification" >获取验证码</button> -->
+              <button @click.prevent="sendCode" :disabled="!isRightPhoneNumber || !!countDown" class="get_verification" :class="isRightPhoneNumber?'right_phone_number':''">
+                {{countDown?`${countDown}s后可以再次获取`:'获取验证码'}}
+              </button>
             </section>
             <section class="login_verification">
-              <input v-validate="'required|code'" name="code" type="tel" maxlength="8" placeholder="验证码">
+              <input v-model="code" v-validate="'required|code'" name="code" type="tel" maxlength="8" placeholder="验证码">
               <span style="color: red;" v-show="errors.has('code')">{{errors.first('code')}}</span>
             </section>
             <section class="login_hint">
@@ -28,7 +31,7 @@
           <div :class="{on: isPassWordLogin}">
             <section>
               <section class="login_message">
-                <input name="username" v-validate="'required'" type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
+                <input v-model="name" name="username" v-validate="'required'" type="tel" maxlength="11" placeholder="手机/邮箱/用户名">
                 <span style="color: red;" v-show="errors.has('username')">{{errors.first('username')}}</span>
               </section>
               <section class="login_verification">
@@ -38,6 +41,7 @@
                     maxlength="8"
                     placeholder="密码"
                     name="pwd"
+                    v-model="pwd"
                 >
                 <span style="color: red;" v-show="errors.has('pwd')">{{errors.first('pwd')}}</span>
 
@@ -47,14 +51,14 @@
                 </div>
               </section>
               <section class="login_message">
-                <input name="captcha" v-validate="'required'" type="text" maxlength="11" placeholder="验证码">
+                <input  v-model="captcha" name="captcha" v-validate="'required'" type="text" maxlength="11" placeholder="验证码">
                 <span style="color: red;" v-show="errors.has('captcha')">{{errors.first('captcha')}}</span>
 
                 <img ref="captcha" @click="updateCaptcha" class="get_verification" src="http://localhost:4000/captcha" alt="captcha">
               </section>
             </section>
           </div>
-          <button class="login_submit">登录</button>
+          <button class="login_submit" @click.prevent="login">登录</button>
         </form>
         <a href="javascript:;" class="about_us">关于我们</a>
       </div>
@@ -66,11 +70,18 @@
 </template>
 
 <script>
+import {loginWithPassword,loginWithPhone} from '../../api'
   export default {
     data(){
       return {
         isPassWordLogin: false, // 标识是否是用户名/密码登录
         isShowPassword: false, // 标识是否是密码
+        name:'',
+        pwd:'',
+        captcha:'',
+        phone:'',
+        code:'',
+        countDown:0,//倒计时
       }
     },
     methods: {
@@ -78,17 +89,60 @@
         this.$refs.captcha.src = 'http://localhost:4000/captcha?time=' + Date.now()
       },
       async login(){
-        let {isPassWordLogin} = this
+        let {isPassWordLogin,name,pwd,captcha,phone,code} = this
         let names = isPassWordLogin?['username','pwd','captcha',]:['phone','code']
-        const success = await this.$validator.$validateAll(names)
+        // const success = await this.$validator.$validateAll(names)
+
+        const success = await this.$validator.validateAll(names) // 对所有表单项进行验证
+
         if(success){
           alert('前端验证成功')
           // 收集表单项数据，发送请求进行后端验证
+          // let result = await loginWithPassword(name,  pwd, captcha)
+          // 判断是否是用户名/密码登录
+          let result 
+          if (isPassWordLogin) {
+            result = await this.$API.loginWithPassword(name,pwd,captcha)
+            if (result.code ===1 ) {
+              //清空驗證碼
+              this.captcha = ''
+              //更新圖形驗證碼
+              this.updateCaptcha()
+            }
+          }else{
+            result = await this.$API.loginWithPhone(phone, code)
+            if (result.code ===1) {
+              //清空驗證碼
+              this.code = ''
+            }
+          }
+            //登陸成功的處理
+            if (result.code ===0) {
+              alert('登録成功')
+              // 将获取的用户数据存入vuex的state中
+              this.$store.dispatch('getUserAction', {user: result.data})
+              this.$router.replace('/profile')
+            }
         }else {
           alert('前端验证失败')
         }
+      },
+      sendCode(){
+        console.log('发送代码')
+        //设置倒计时时长
+        this.countDown = 10
+        this.intervaId = setInterval(() => {
+          this.countDown--
+          this.countDown === 0 && clearInterval(this.intervaId)
+        }, 1000);
       }
     },
+    computed: {
+      isRightPhoneNumber(){
+        // 验证手机号是否满足要求
+        return /^1(3|4|5|6|7|8|9)\d{9}$/.test(this.phone)
+      }
+    }
   }
 </script>
 
@@ -181,7 +235,7 @@
                 &.on
                   background #02a774
                 >.switch_circle
-                //transform translateX(27px)
+                // transform translateX(27px)
                   position absolute
                   top -1px
                   left -1px
@@ -192,6 +246,8 @@
                   background #fff
                   box-shadow 0 2px 4px 0 rgba(0,0,0,.1)
                   transition transform .3s
+                  &.right
+                    transform translateX(27px)
             .login_hint
               margin-top 12px
               color #999

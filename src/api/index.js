@@ -20,3 +20,29 @@ export const getShops = (latitude, longitude) => ajax({
     longitude
   }
 })
+/* 用戶名密碼登録 */
+export const loginWithPassword = (name, pwd,captcha) => ajax({
+  url: '/login_pwd',
+  method:'POST',
+  data: {
+    name,
+    pwd,
+    captcha
+  }
+})
+/* 手機號碼驗證登陸 */
+export const loginWithPhone = (phone, code) => ajax({
+  url: '/login_sms',
+  method:'POST',
+  data: {
+    phone,
+    code
+  }
+})
+/* 發送短信驗證碼 */
+export const sendCode = phone => ajax({
+  url: '/sendcode',
+  params: {
+    phone
+  }
+})
