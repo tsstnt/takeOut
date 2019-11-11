@@ -70,7 +70,7 @@ export default {
         categorys: state=> state.categorys
       }),
       newCateGorys(){
-        return _.chunk(this.categorys,8)
+        return _.chunk(this.categorys, 8) 
       }
     }
 }
