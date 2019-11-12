@@ -8,7 +8,10 @@ export const getAddress = (latitude,longitude) => ajax({
 
 /* 获取食品分类列表 */
 export const getCategorys = () => ajax({
-  url:'/index_category'
+  url:'/index_category',
+  headers: {
+    needToken:true
+  }
 })
 
 /* 根据经纬度获取商品列表 */
@@ -18,6 +21,9 @@ export const getShops = (latitude, longitude) => ajax({
   params: {
     latitude,
     longitude
+  },
+  headers: {
+    needToken:true
   }
 })
 /* 用戶名密碼登録 */

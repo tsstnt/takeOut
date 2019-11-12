@@ -3,6 +3,10 @@ import Search from '../pages/Search/Search'
 import Order from '../pages/Order/Order'
 import Profile from '../pages/Profile/Profile'
 import Login from '../pages/Login/Login'
+import Shop from '../pages/Shop/Shop'
+import Goods from '../pages/Shop/Goods/Goods'
+import Info from '../pages/Shop/Info/Info'
+import Rating from '../pages/Shop/Rating/Rating'
 
 
 // 专门放置路由信息
@@ -43,6 +47,29 @@ export default [
     path: '/login',
     component: Login
   },
+  {
+    path: '/shop',
+    component: Shop,
+    children:[
+      {
+        path:'goods',
+        component:Goods
+      },
+      {
+        path:'rating',
+        component:Rating
+      },
+      {
+        path:'info',
+        component:Info
+      },
+      {
+      path:'/shop',
+      Redirect:'/shop/goods'
+      }
+    ]
+  },
+  
   {
     path: '/',
     redirect: '/msite'

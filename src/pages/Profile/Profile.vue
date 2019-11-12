@@ -102,7 +102,7 @@
   
 <script type="text/ecmascript-6">
 import { mapState } from 'vuex'
-// import { autoLogin } from '../../api'
+import { autoLogin } from '../../api'
 import { MessageBox } from 'mint-ui'
 import {LOGOUT} from '../../store/mutations-type'
   export default {

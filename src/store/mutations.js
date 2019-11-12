@@ -11,7 +11,6 @@ export default {
     state.address = address
   }, 
   [SAVE_CATEGORYS](state,{categorys}){
-    console.log(categorys)
     state.categorys = categorys
   }, 
   [SAVE_SHOPS](state,{shops}){

@@ -11,7 +11,7 @@ const instance = axios.create({
 })
 
 //1添加请求拦截器
-instance. interceptors.request.use(config => {
+instance.interceptors.request.use(config => {
   //config: 当前请求的所有请求信息,url,method,data
   //目的:批量添加或者请求的参数
   //post 请求默认的参数格式的json对象形式  json对象形式--->urlencoding
@@ -39,12 +39,12 @@ instance.interceptors.response.use(
     if(!error.response){
       //1.没有token
       MessageBox.alert(error.message)
-      router.currentRoute.path !=='./login' && router.replace('./login')
+      router.currentRoute.path !=='/login' && router.replace('/login')
     }else{
       // 2. 有token，token过期    
       if (error.response.status === 401) {
-        alert('token已过期')
-        router.currentRoute.path !== './login' && router.replace('./login')
+        MessageBox.alert('token已过期')
+        router.currentRoute.path !== '/login' && router.replace('/login')
       } else if(error.response.status === 404){
           // 3. 请求404
           MessageBox.alert('请求资源未找到')
