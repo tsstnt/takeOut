@@ -46,3 +46,9 @@ export const sendCode = phone => ajax({
     phone
   }
 })
+export const autoLogin = () => ajax({
+  url: '/auto_login',
+  headers: {
+    needToken:true
+  }
+})

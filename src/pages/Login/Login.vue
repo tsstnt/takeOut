@@ -71,6 +71,8 @@
 
 <script>
 import {loginWithPassword,loginWithPhone} from '../../api'
+import {Toast} from 'mint-ui'
+
   export default {
     data(){
       return {
@@ -96,7 +98,7 @@ import {loginWithPassword,loginWithPhone} from '../../api'
         const success = await this.$validator.validateAll(names) // 对所有表单项进行验证
 
         if(success){
-          alert('前端验证成功')
+          Toast('前端验证成功')
           // 收集表单项数据，发送请求进行后端验证
           // let result = await loginWithPassword(name,  pwd, captcha)
           // 判断是否是用户名/密码登录
@@ -118,26 +120,26 @@ import {loginWithPassword,loginWithPhone} from '../../api'
           }
             //登陸成功的處理
             if (result.code ===0) {
-              alert('登録成功')
+              Toast('登録成功')
               // 将获取的用户数据存入vuex的state中
               this.$store.dispatch('getUserAction', {user: result.data})
               this.$router.replace('/profile')
             }
         }else {
-          alert('前端验证失败')
+          Toast('前端验证失败')
         }
       },
       async sendCode(){
         console.log('发送代码')
         let result = await this.$API.sendCode(this.phone)
         if (result.code ===0) {
-          alert('发送成功')
+          Toast('发送成功')
           //将获取的用户的数据存入vuex的state中
           this.$store.dispatch('getUserAction')
           this.$router.replace('./profile')
         }
         else{
-          alert('发送失败')
+          Toast('发送失败')
         }
         //设置倒计时时长
         this.countDown = 10

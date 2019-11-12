@@ -93,22 +93,45 @@
         </div>
       </a>
     </section>
+    <section class="profile_my_order border-1px">
+      <mt-button @click="logout" style="width:100%" type="danger">退出登录</mt-button>
+    </section>
+    
   </section>
 </template>
   
 <script type="text/ecmascript-6">
 import { mapState } from 'vuex'
+// import { autoLogin } from '../../api'
+import { MessageBox } from 'mint-ui'
+import {LOGOUT} from '../../store/mutations-type'
   export default {
     methods: {
       toLogin(){
+        if (this.user._id) {
+          return
+        }
         this.$router.replace('/login')
+      },
+      logout(){
+        //退出登录
+        MessageBox.confirm('确认退出吗')
+        .then(
+          actionAgree => {this.$store.commit(LOGOUT)
+          this.$router.replace('./login')
+          },
+          actionReject => console.log('取消退出')
+        )
       }
     },
     computed:{
       ...mapState({
         user: state => state.user
       })
-    }
+    },
+    mounted() {
+      this.$store.dispatch('autoLoginAction')
+    },
   }
 </script>
   
