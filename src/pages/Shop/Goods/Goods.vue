@@ -32,7 +32,7 @@
                   <span class="now">￥{{ food.price }}</span>
                 </div>
                 <div class="cartcontrol-wrapper">
-                  CartControl组件
+                  <CartControl :food="food" />
                 </div>
               </div>
             </li>
@@ -59,6 +59,9 @@ export default {
       this._initScroll();
       this._initTops();
     }
+    // this.$set(this.test,'num2',2)
+    //vue中禁止向data的根对象在后期直接添加属性
+    // this.$set(this,'num2',2)
   },
 
   computed: {

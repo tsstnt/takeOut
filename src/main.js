@@ -11,11 +11,13 @@ import './mock/mockServe'
 
 import router from './router'
 import GshopHeader from './components/GshopHeader/GshopHeader'
+import CartControl from './components/CartControl/CartControl'
 import store from './store'
 Vue.prototype.$API = API
 
 //Vue全局注册组件的语法:Vue
 Vue.component('GshopHeader',GshopHeader)
+Vue.component('CartControl',CartControl)
 Vue.component(Button.name, Button)
 
 Vue.config.productionTip = false
