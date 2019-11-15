@@ -20,6 +20,7 @@ import {ADD_FOOD_COUNT,DEL_FOOD_COUNT} from '../../store/mutations-type'
     },
     methods: {
       updateFoodCount(isAdd){
+        console.log('dayin')
         if (isAdd) {
           //增加
           this.$store.commit(ADD_FOOD_COUNT,{food: this.food})

@@ -3,7 +3,13 @@
     <div class="leftContainer">
       <ul ref="leftUl" class="navList">
         <!-- <li class="navItem" v-for="(good, index) in goods" :key="index"> -->
-        <li  @click="changeNavIndex(index)" class="navItem" :class="{active: navIndex === index}" v-for="(good, index) in goods" :key="index">
+        <li
+          @click="changeNavIndex(index)"
+          class="navItem"
+          :class="{ active: navIndex === index }"
+          v-for="(good, index) in goods"
+          :key="index"
+        >
           <p>{{ good.name }}</p>
         </li>
       </ul>
@@ -40,6 +46,7 @@
         </li>
       </ul>
     </div>
+    <ShopCart/>
   </div>
 </template>
   
@@ -47,7 +54,11 @@
 import BScroll from "better-scroll";
 import Vue from "vue";
 import { mapState } from "vuex";
+import ShopCart from '../../../components/ShopCart/ShopCart'
 export default {
+  components:{
+    ShopCart
+  },
   data() {
     return {
       scrollY: 0,
@@ -55,6 +66,7 @@ export default {
     };
   },
   async mounted() {
+    //保证切换至评价,商家的时候还能在切换回来BScroll还能使用
     if (this.goods) {
       this._initScroll();
       this._initTops();
@@ -69,14 +81,19 @@ export default {
       goods: state => state.shop.shopDatas.goods
     }),
     navIndex() {
-      let { tops, scrollY } = this
+      let { tops, scrollY } = this;
       // return tops.findIndex((top, index) => scrollY > top && scrollY < top[index + 1])
-      let index = tops.findIndex((top, index) => scrollY >= top && scrollY < tops[index + 1])
+      let index = tops.findIndex(
+        (top, index) => scrollY >= top && scrollY < tops[index + 1]
+      );
       // console.log(index)
-      if(this.leftScroll && this.index !== index){
-          this.index = index
-          this.leftScroll.scrollToElement(this.$refs.leftUl.children[index], 2000)
-        }
+      if (this.leftScroll && this.index !== index) {
+        this.index = index;
+        this.leftScroll.scrollToElement(
+          this.$refs.leftUl.children[index],
+          2000
+        );
+      }
       return index;
     }
   },
@@ -89,9 +106,9 @@ export default {
       this.rightScroll = new BScroll(".rightContainer", {
         scrollY: true, // 设置纵向滑动
         // probeType: 1, // 非实时
-        probeType: 2, // 实时
+        probeType: 2 // 实时
         // probeType: 3, // 实时/惯性滑动
-        click: true
+        // click: true
       });
       this.rightScroll.on("scroll", ({ x, y }) => {
         // console.log("yyyyy", y);
@@ -115,12 +132,11 @@ export default {
       this.tops = tops;
       // console.log(tops)
     },
-  changeNavIndex(index){
-  // console.log('xxx');
-  this.scrollY = this.tops[index]
-  this.rightScroll.scrollTo(0, -this.scrollY, 2000)
-
-},
+    changeNavIndex(index) {
+      // console.log('xxx');
+      this.scrollY = this.tops[index];
+      this.rightScroll.scrollTo(0, -this.scrollY, 2000);
+    }
   },
 
   watch: {
@@ -136,82 +152,120 @@ export default {
 </script>
   
 <style lang="stylus" rel="stylesheet/stylus">
-  @import "../../../common/stylus/mixins.styl"
-  #goodContainer
-    display flex
-    overflow hidden
-    /*position absolute*/
-    /*bottom 0*/
-    /*top 224px*/
-    height calc(100vh - 224px)  /*vh, vw 1vh == 1%视口高度*/
-    .leftContainer
-      width 80px
-      background #f3f5f7
-      .navList
-        .navItem
-          text-align center
-          height 40px
-          line-height 40px
-          &.active
-            background #fff
-          p
-            width 70px
-            margin 0 auto
-            bottom-border-1px(rgba(7,17,27,0.1))
-    .rightContainer
-      width 295px
-      .title
-        padding-left: 14px
-        height: 26px
-        line-height: 26px
-        border-left: 2px solid #d9dde1
-        font-size: 12px
-        color: rgb(147, 153, 159)
-        background: #f3f5f7
-      .food-item
-        display: flex
-        margin: 18px
-        padding-bottom: 18px
-        bottom-border-1px(rgba(7, 17, 27, 0.1))
-        &:last-child
-          border-none()
-          margin-bottom: 0
-        .icon
-          flex: 0 0 57px
-          margin-right: 10px
-        .content
-          flex: 1
-          .name
-            margin: 2px 0 8px 0
-            height: 14px
-            line-height: 14px
-            font-size: 14px
-            color: rgb(7, 17, 27)
-          .desc, .extra
-            line-height: 10px
-            font-size: 10px
-            color: rgb(147, 153, 159)
-          .desc
-            line-height: 12px
-            margin-bottom: 8px
-          .extra
-            .count
-              margin-right: 12px
-          .price
-            font-weight: 700
-            line-height: 24px
-            .now
-              margin-right: 8px
-              font-size: 14px
-              color: rgb(240, 20, 20)
-            .old
-              text-decoration: line-through
-              font-size: 10px
-              color: rgb(147, 153, 159)
-          .cartcontrol-wrapper
-            position: absolute
-            right: 0
-            bottom: 12px
+@import '../../../common/stylus/mixins.styl';
 
+#goodContainer {
+  display: flex;
+  overflow: hidden;
+  /* position absolute */
+  /* bottom 0 */
+  /* top 224px */
+  height: calc(100vh - 224px); /* vh, vw 1vh == 1%视口高度 */
 
+  .leftContainer {
+    width: 80px;
+    background: #f3f5f7;
+
+    .navList {
+      .navItem {
+        text-align: center;
+        height: 40px;
+        line-height: 40px;
+
+        &.active {
+          background: #fff;
+        }
+
+        p {
+          width: 70px;
+          margin: 0 auto;
+          bottom-border-1px(rgba(7, 17, 27, 0.1));
+        }
+      }
+    }
+  }
+
+  .rightContainer {
+    width: 295px;
+
+    .title {
+      padding-left: 14px;
+      height: 26px;
+      line-height: 26px;
+      border-left: 2px solid #d9dde1;
+      font-size: 12px;
+      color: rgb(147, 153, 159);
+      background: #f3f5f7;
+    }
+
+    .food-item {
+      display: flex;
+      margin: 18px;
+      padding-bottom: 18px;
+      bottom-border-1px(rgba(7, 17, 27, 0.1));
+
+      &:last-child {
+        border-none();
+        margin-bottom: 0;
+      }
+
+      .icon {
+        flex: 0 0 57px;
+        margin-right: 10px;
+      }
+
+      .content {
+        flex: 1;
+
+        .name {
+          margin: 2px 0 8px 0;
+          height: 14px;
+          line-height: 14px;
+          font-size: 14px;
+          color: rgb(7, 17, 27);
+        }
+
+        .desc, .extra {
+          line-height: 10px;
+          font-size: 10px;
+          color: rgb(147, 153, 159);
+        }
+
+        .desc {
+          line-height: 12px;
+          margin-bottom: 8px;
+        }
+
+        .extra {
+          .count {
+            margin-right: 12px;
+          }
+        }
+
+        .price {
+          font-weight: 700;
+          line-height: 24px;
+
+          .now {
+            margin-right: 8px;
+            font-size: 14px;
+            color: rgb(240, 20, 20);
+          }
+
+          .old {
+            text-decoration: line-through;
+            font-size: 10px;
+            color: rgb(147, 153, 159);
+          }
+        }
+
+        .cartcontrol-wrapper {
+          position: absolute;
+          right: 0;
+          bottom: 12px;
+        }
+      }
+    }
+  }
+}
 </style>
