@@ -5,7 +5,9 @@ import {
 import {
   SAVE_SHOPDATAS,
   ADD_FOOD_COUNT,
-  DEL_FOOD_COUNT
+  DEL_FOOD_COUNT,
+  CLEAR_CARTSHOPS,
+  SAVE_CARTSHOPS
 } from '../mutations-type'
 
 const state = {
@@ -13,9 +15,7 @@ const state = {
   cartShops: [] // 购物车的数据
 }
 const actions = {
-  async getShopDatasAction({
-    commit
-  }) {
+  async getShopDatasAction({commit}) {
     let result = await getShopDatas()
     if (result.code === 0) {
       commit(SAVE_SHOPDATAS, {
@@ -25,15 +25,17 @@ const actions = {
   }
 }
 const mutations = {
-  [SAVE_SHOPDATAS](state, {
-    shopDatas
-  }) {
-
+  [SAVE_SHOPDATAS](state, {shopDatas}) {
     state.shopDatas = shopDatas
+    // 我们在保存数据值vuex的同时将数据同步保存至sessionStorage，
+    // 问题： 数据每改变一次，保存数据的动作就发生一次，页面刷新之前的动作都是多余的，性能差
+    // sessionStorage.setItem('shopDatas', JSON.stringify(shopDatas))
   },
-  [ADD_FOOD_COUNT](state, {
-    food
-  }) {
+  [SAVE_CARTSHOPS](state, {cartShops}) {
+
+    state.shopDatas = cartShops
+  },
+  [ADD_FOOD_COUNT](state, {food}) {
     if (food.count) { // count > 0
       food.count++
     } else { // count： 1. undefined 2. 0
@@ -45,18 +47,23 @@ const mutations = {
     }
 
   },
-  [DEL_FOOD_COUNT](state, {
-    food
-  }) {
+  [DEL_FOOD_COUNT](state, {food}) {
     if (food.count) {
       food.count--
       if (!food.count) {
         //从购物车中删除商品
-        state.cartShops.splice(state.cartShops.indexOf(food),1)
+        state.cartShops.splice(state.cartShops.indexOf(food), 1)
       }
     }
   },
-}
+  [CLEAR_CARTSHOPS](state){
+    state.cartShops.forEach(food => food.count = 0)
+    state.cartShops = []
+    }
+  
+  }
+
+
 const getters = {
   // 性能差
   /*   cartShops(state){
@@ -65,16 +72,16 @@ const getters = {
         return pre
       },[])
     }   */
-    totalCount(state){
-      return state.cartShops.reduce((pre,food) => {
-        return pre += food.count
-      },0)
-    },    
-    totalPrice(state){
-      return state.cartShops.reduce((pre,food) => {
-        return pre += food.count*food.price
-      },0)
-    },
+  totalCount(state) {
+    return state.cartShops.reduce((pre, food) => {
+      return pre += food.count
+    }, 0)
+  },
+  totalPrice(state) {
+    return state.cartShops.reduce((pre, food) => {
+      return pre += food.count * food.price
+    }, 0)
+  },
 }
 export default {
   state,
